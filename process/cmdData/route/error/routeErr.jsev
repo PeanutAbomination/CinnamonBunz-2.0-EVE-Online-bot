@@ -1,1 +1,9 @@
-
+let routePath = new Discord.MessageEmbed()
+  .setTitle("Route path creation unsuccessful")
+  .setDescription("Possible reason: `user slash command option(start,end) invalid`\n\nUse `/help route` for help for route command")
+  .setColor("RED")
+  .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+  interaction.reply({
+    embeds:[routePath],
+    ephemeral:false
+  })
