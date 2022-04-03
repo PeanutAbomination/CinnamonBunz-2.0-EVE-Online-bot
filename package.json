@@ -1,0 +1,26 @@
+{
+  "name": "eve",
+  "version": "1.0.0",
+  "description": "A discord bot that has multi functions about eve online",
+  "main": "twilight.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peanut",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "discord-api-types": "^0.30.0",
+    "discord.js": "^13.6.0",
+    "eve-swagger": "^0.3.3",
+    "EVEoj": "^0.3.1",
+    "js-yaml": "^4.1.0",
+    "python-shell": "^3.0.1",
+    "random-question": "^0.2.1",
+    "translate": "^1.4.1",
+    "underscore": "^1.13.2",
+    "xml-js": "^1.6.11",
+    "xml2js": "^0.4.23",
+    "yaml": "^1.10.2"
+  }
+}
