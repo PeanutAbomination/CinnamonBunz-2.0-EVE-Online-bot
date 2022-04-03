@@ -1,1 +1,83 @@
 
+const [guildID] = [`${gID.id[0]}`]
+    const [guild] = [twi.guilds.cache.get(guildID)]
+    let commands
+    if(guild){
+      commands = guild.commands
+    }else{
+      commands = twi.application?.commands
+    }
+    commands?.create({
+      name:"route",
+      description:"Routes system paths for you",
+      options:[
+        {
+           name:"start",
+           description:"Starting system of route",
+           required:true,
+           type:"STRING"
+        },
+        {
+            name:"end",
+            description:"Ending system of route",
+            require:true,
+            type:"STRING"
+        },
+        {
+            name:"security",
+            description:"Avoid certain system with it's security level",
+            require:true,
+            type:3,
+            choices:[{
+              name:"safe",
+              value:"safe"
+            },
+          {
+            name:"fast",
+            value:"fast"
+          },
+        {
+          name:"unsafe",
+          value:"unsafe"
+        }]
+        }
+      ]
+    })
+    commands?.create({
+      name:"language",
+      description:"Changes the default language for all commands",
+      options:[
+          {
+              name:"change",
+              description:"Changes the default language for all commands",
+              type:3,
+              require:true,
+              choices:[{
+                name:"en",
+                value:"en"
+              },
+            {
+              name:"zh",
+              value:"zh"
+            },
+          {
+            name:"ru",
+            value:"ru"
+          }]
+          }
+      ]
+    })
+    commands?.create({
+      name:"profile",
+      description:"Create your own profile",
+      options:[{
+        name:"create",
+        description:"Create your own private language database",
+        type:3,
+        require:true,
+        choices:[{
+          name:"new",
+          value:"new"
+        }]
+      },]
+    })
