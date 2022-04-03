@@ -1,0 +1,84 @@
+var test = 1
+try{
+var EVEoj = require("EVEoj"),
+    SDD = EVEoj.SDD.Create("json", {
+        path: "./static"
+    }),
+    map;
+
+SDD.LoadMeta()
+.then(function() {
+    map = EVEoj.map.Create(SDD, "K");
+    return map.Load();
+})
+.then(function() {
+    const start = options.getString("start")
+    const end = options.getString("end")
+    if((map.GetSystem({name: `${start}`}))){
+        if((map.GetSystem({name: `${end}`}))){
+            var pFilter = options.getString("security")
+            if(!(pFilter == undefined)){
+                console.log(pFilter)
+                if((pFilter == "safe") || (pFilter == "fast") || (pFilter == "unsafe")){
+                    var exist = "1"
+                    if(pFilter == "safe"){
+                        var avoidLow = true
+                        var avoidHigh = false
+                    }else
+                    if(pFilter == "fast"){
+                        var avoidLow = true
+                        var avoidHigh = true
+                    }else
+                    if(pFilter == "unsafe"){
+                        var avoidLow = false
+                        var avoidHigh = true
+                    }
+                    
+                    var starSystem1 = map.GetSystem({name: `${start}`});
+                    var  starSystem2 = map.GetSystem({name: `${end}`});
+                    var route = (map.Route(starSystem1.ID, starSystem2.ID, [], avoidLow, avoidHigh) + "").split(",")
+                    for (let steps = 0; steps < route.length; steps++){
+                    var routeName = routeName + ` > ${map.GetSystem({id: route[steps]}).name} [${map.GetSystem({id: route[steps]}).sec}]`
+                    }
+                    let routePath = new Discord.MessageEmbed()
+                    .setTitle("Route path created!")
+                    .setFields(
+                        {name: "Route length:", value: `**${route.length}**` },
+                        {name: "Path:", value: (`**${start} [${map.GetSystem({name: start}).sec}]` + `${routeName}**`).replace(undefined,"")}
+                    )
+                    .setColor("BLUE")
+                    .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+                    interaction.reply({
+                      embeds:[routePath],
+                      ephemeral:false
+                    })
+                    }else
+                    if(!(pFilter == "safe") && (pFilter == "fast") && (pFilter == "unsafe")){
+                        let routePath = new Discord.MessageEmbed()
+                    .setTitle("Route path creation unsuccessful")
+                    .setDescription("Possible reason: `user slash command option(security) invalid`\n\nUse `/help route` for help for route command")
+                    .setColor("RED")
+                    .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+                    interaction.reply({
+                      embeds:[routePath],
+                      ephemeral:false
+                    })
+                    }
+                }
+            }
+        }
+    })
+}catch(e){
+    let routePath = new Discord.MessageEmbed()
+    .setTitle("Route path creation unsuccessful")
+    .setDescription("Possible reason: `user slash command option(start OR end OR security) invalid`\n\nUse `/help route` for help for route command")
+    .setColor("RED")
+    .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+    interaction.reply({
+      embeds:[routePath],
+      ephemeral:false
+    })
+    console.log(e)
+    throw e;
+    
+}
