@@ -1,0 +1,17 @@
+if (fs.existsSync("./var/lang/"+interaction.user.id+".lang")) {
+    var dLang = fs.readFileSync("./var/lang/"+interaction.user.id+".lang",
+    {encoding:'utf8', flag:'r'});
+    if(dLang == "en"){
+        var defaultLang = "en"
+    }else
+    if(dLang == "zh"){
+        var defaultLang = "zh"
+    }else
+    if(dLang == "ru"){
+        var defaultLang = "ru"
+    }
+}else
+if (!(fs.existsSync("./var/lang/"+interaction.user.id+".lang"))) {
+    var defaultLang = "en"
+}
+
