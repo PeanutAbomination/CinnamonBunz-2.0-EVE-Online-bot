@@ -10,3 +10,5 @@ JSEV is basicly eval for JS
 ~ language command added
 
 ~ language database bug fixed
+
+~ route/err JSEV error embeds updated to language options
