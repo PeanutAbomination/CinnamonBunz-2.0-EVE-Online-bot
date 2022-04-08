@@ -1,9 +1,11 @@
-let routePath = new Discord.MessageEmbed()
-  .setTitle("Route path creation unsuccessful")
-  .setDescription("Possible reason: `user slash command option(start,end) invalid`\n\nUse `/help route` for help for route command")
+translate(['Route path creation unsuccessful', 'Possible reason: `user slash command option(start,end) invalid`\n\nUse `','` for help for route command'], {from: 'en', to: defaultLang}).then(res => {
+  let routePath = new Discord.MessageEmbed()
+  .setTitle(`${res[0]}`)
+  .setDescription(`${res[1] + "/help route" + res[2]}`)
   .setColor("RED")
   .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
   interaction.reply({
     embeds:[routePath],
     ephemeral:false
   })
+})

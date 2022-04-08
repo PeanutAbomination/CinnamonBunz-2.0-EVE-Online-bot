@@ -3,9 +3,8 @@ const twi = new Discord.Client({ intents: 14087});
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const [gID] = [require("./var/GuildID.json")]
 var fs = require("fs")
+var translate = require("translate-google")
 const [rp1,rp2,fCreat,fExist,fTerminate] = ["try{\nfs.readFile('","', 'utf8' , (err, data) => {\nif (err) {\nconsole.error(err)\nreturn\n}\neval(`${data}`)\n})\n}catch(e){\nconsole.log(e)\n}",`fs.writeFile(\`arjTemp/\${interaction.user.id}\`+".arj", '0', function (err) {\nif (err) throw err;\nconsole.log('File is created successfully.');\n});`,`try {\nif (fs.existsSync(\`arjTemp/\${interaction.user.id}\`+".arj")) {\n//file exists\nconsole.log("eyup")\n}else\n{if (fs.existsSync(!(\`arjTemp/\${interaction.user.id}\`+".arj"))) {\n//file does not exists\nconsole.log("eno")\nfs.unlink(\`arjTemp/\${interaction.user.id}\`+".arj", (err) => {\nif (err) throw err;\n});\n}\n} catch(err) {\nconsole.error(err)\n}`]
-
-
 
 // gID declare as list form in JSON
 
@@ -14,6 +13,16 @@ twi.on("ready",() => {
   })
 
 twi.on("interactionCreate", async (interaction) => {
+  {
+  if (fs.existsSync("./var/lang/"+interaction.user.id+".lang")) {
+    var dLang = fs.readFileSync("./var/lang/"+interaction.user.id+".lang",
+    {encoding:'utf8', flag:'r'});
+    if(dLang == "en"){var defaultLang = "en"}else
+    if(dLang == "zh"){var defaultLang = "zh-cn"}else
+    if(dLang == "ru"){var defaultLang = "ru"}}else
+if (!(fs.existsSync("./var/lang/"+interaction.user.id+".lang"))) {var defaultLang = "en"}
+// declares default language for user
+}
     if(!interaction.isCommand()){
       return
     }
@@ -48,8 +57,11 @@ if(!(start) || !(end)){eval(rp1 + "./process/cmdData/route/error/routeErr.jsev" 
     }}else
     if(commandName === "profile"){
       eval(rp1 + "./process/interHandler/profile.jsev" + rp2)
+    }else
+    if(commandName === "language"){
+      eval(rp1 + "./process/interHandler/language.jsev" + rp2)
     }
   })
 
 
-twi.login("")
+twi.login("OTExODMxNDA3MjMwMzQxMTYx.YZnHLA.WsL9vir4FTnYtPJixW8v-DMKSH4")
