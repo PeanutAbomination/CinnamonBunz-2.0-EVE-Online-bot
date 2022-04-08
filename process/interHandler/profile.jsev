@@ -1,9 +1,11 @@
 try {
+  var translate = require('translate-google')
+  translate(['Unable to create new profile', 'Possible reason: `user already owned private profile`'], {from: 'en', to: defaultLang}).then(res => {
     if (fs.existsSync("./var/lang/"+interaction.user.id+".lang")) {
         //file exists
         let err = new Discord.MessageEmbed()
-       .setTitle("Unable to create new profile")
-       .setDescription("Possible reason: `user already owned private profile`")
+       .setTitle(`${res[0]}`)
+       .setDescription(`${res[1]}`)
        .setColor("RED")
        .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
        interaction.reply({
@@ -14,18 +16,23 @@ try {
     if (!(fs.existsSync("./var/lang/"+interaction.user.id+".lang"))){
         //file does NOT exist
             fs.writeFile("./var/lang/"+interaction.user.id+".lang", 'en', function (err) {
+              translate(["Successfully create private profile","Profile created! The purpose of a profile is to able to change your own prefer language as default."], {from: 'en', to: defaultLang}).then(res => {
                 if (err) throw err;
                 let done = new Discord.MessageEmbed()
-                .setTitle("Successfully create private profile")
-                .setDescription("Profile created! The purpose of a profile is to able to change your own prefer language as default.")
+                .setTitle(`${res[0]}`)
+                .setDescription(`${res[1]}`)
                 .setColor("GREEN")
                 .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
                 interaction.reply({
                   embeds:[done],
                   ephemeral:false
                 })
+              })
               });
     }
+  }).catch(err => {
+    console.error(err)
+})
   } catch(err) {
     console.error(err)
   }

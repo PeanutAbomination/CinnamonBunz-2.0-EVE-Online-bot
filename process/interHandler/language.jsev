@@ -1,1 +1,56 @@
+var lang = options.getString("change")
+var translate = require("translate-google")
 
+try {
+    if (fs.existsSync("./var/lang/"+interaction.user.id+".lang")) {
+        fs.readFile("./var/lang/"+interaction.user.id+".lang", 'utf8', function(err, data){
+            if(data==lang){
+              translate(["Unable to change user's language",`Possible reason: \`language is already set to <${lang}>\``], {from: 'en', to: defaultLang}).then(res => {
+        let errr = new Discord.MessageEmbed()
+       .setTitle(`${res[0]}`)
+       .setDescription(`${res[1]}`)
+       .setColor("RED")
+       .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+       interaction.reply({
+         embeds:[errr],
+         ephemeral:false
+       })
+      })
+            }else
+            if(!(data==lang)){
+                fs.writeFile("./var/lang/"+interaction.user.id+".lang", lang, (err) => {
+                    if (err)
+                      console.log(err);
+                    else {
+                      translate(["Changed user default language!",`Your default language has been changed to \`<${lang}>\``], {from: 'en', to: defaultLang}).then(res => {
+                        let done = new Discord.MessageEmbed()
+                        .setTitle(`${res[0]}`)
+                        .setDescription(`${res[1]}`)
+                        .setColor("GREEN")
+                        .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+                        interaction.reply({
+                          embeds:[done],
+                          ephemeral:false
+                        })
+                      })
+                    }
+                })
+            }
+        });
+        }else
+        if (!(fs.existsSync("./var/lang/"+interaction.user.id+".lang"))) {
+          translate(["Unable to change user's language","Possible reason: `user does not own a profile`\nnote: use `/profile create:new` to create a private profile to change your default language!"], {from: 'en', to: defaultLang}).then(res => {
+            let errr = new Discord.MessageEmbed()
+       .setTitle(`${res[0]}`)
+       .setDescription(`${res[1]}`)
+       .setColor("RED")
+       .setFooter(`${interaction.user.tag}`,`${interaction.user.avatarURL()}`)
+       interaction.reply({
+         embeds:[errr],
+         ephemeral:false
+       })
+      })
+        }
+    }catch(e){
+    console.log(e)
+}
