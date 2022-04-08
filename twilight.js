@@ -64,4 +64,4 @@ if(!(start) || !(end)){eval(rp1 + "./process/cmdData/route/error/routeErr.jsev" 
   })
 
 
-twi.login("OTExODMxNDA3MjMwMzQxMTYx.YZnHLA.WsL9vir4FTnYtPJixW8v-DMKSH4")
+twi.login("")
